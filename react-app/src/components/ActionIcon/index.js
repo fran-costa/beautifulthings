@@ -30,7 +30,7 @@ export default class ActionIcon extends React.PureComponent {
     onClick: PropTypes.func.isRequired,
   };
 
-  _handleClick = event => this.props.onClick(event);
+  _handleClick = () => this.props.onClick(this.props.icon);
 
   _getIcon = () => {
     switch (this.props.icon) {
