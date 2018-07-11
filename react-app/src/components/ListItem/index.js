@@ -29,11 +29,7 @@ export default class ListItem extends React.PureComponent {
     onDelete: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { expanded: false }
-  }
+  state = { expanded: false };
 
   _handleEdit = () => this.props.onEdit(this.props.date);
   _handleDelete = () => this.props.onDelete(this.props.date);
