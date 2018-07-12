@@ -1,7 +1,7 @@
 @import 'styles/colors.scss';
 @import 'styles/fonts.scss';
 
-$fontSize: 54pt;
+$fontSize: 54px;
 $fontFamily: BariolRegular;
 
 .labelContainer {
@@ -30,13 +30,13 @@ $fontFamily: BariolRegular;
 
   .password {
     @extend .text;
-    padding-right: 120px;
+    padding-right: 100px;
   }
 
   .showHideButton {
     right: 20px;
     color: $btGray;
-    font-size: 45pt;
+    font-size: 45px;
     position: absolute;
     align-self: center;
   }
