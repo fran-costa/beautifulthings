@@ -4,26 +4,28 @@ import PropTypes from 'prop-types';
 import AppLogo from './Logo.svg';
 import styles from './index.module.scss';
 
-export default class Logo extends React.PureComponent {
-  static SMALL = 'small';
-  static BIG = 'big';
+const Logo = props => {
+  const { size } = props;
 
-  static propTypes = {
-    /**
-     * The size for the logo. Possible values: 'small' or 'big'
-     */
-    size: PropTypes.oneOf([Logo.SMALL, Logo.BIG]).isRequired,
-  };
+  const style = props.size === Logo.SMALL ? styles.small : styles.big;
 
-  render() {
-    const style = this.props.size === Logo.SMALL ? styles.small : styles.big;
-
-    return (
-      <img
-        className={style}
-        src={AppLogo}
-        alt=""
-      />
-    );
-  }
+  return (
+    <img
+      className={style}
+      src={AppLogo}
+      alt=""
+    />
+  );
 }
+
+Logo.BIG = 'big';
+Logo.SMALL = 'small';
+
+Logo.propTypes = {
+  /**
+   * The size for the logo. Possible values: 'small' or 'big'
+   */
+  size: PropTypes.oneOf([Logo.SMALL, Logo.BIG]).isRequired,
+};
+
+export default Logo;
