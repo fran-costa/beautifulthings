@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Button extends PureComponent {
+import styles from './index.module.scss';
+
+export default class Button extends React.PureComponent {
   static propTypes = {
     /**
      * The label or element the button will show.
@@ -14,7 +16,7 @@ export default class Button extends PureComponent {
     /**
      * The function to call when this button is clicked.
      */
-    onClick: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
 
     /**
      * Whether this button is disabled or not.
@@ -24,15 +26,22 @@ export default class Button extends PureComponent {
 
   static defaultProps = { disabled: false }
 
-  _handleClick = event => (this.props.onClick) ? this.props.onClick(event) : null;
+  _handleClick = () => {
+    const { onClick, disabled } = this.props;
+
+    if (!disabled) onClick();
+  }
 
   render() {
+    const { disabled, children } = this.props;
+
     return (
       <button
-        disabled={this.props.disabled}
+        className={styles.button}
+        disabled={disabled}
         onClick={this._handleClick}
       >
-        {this.props.children}
+        {children}
       </button>
     );
   }
