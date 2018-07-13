@@ -3,30 +3,18 @@ import PropTypes from 'prop-types';
 
 import Apply from './Apply.svg';
 import Back from './Back.svg';
+import styles from './index.module.scss';
 
-export default class ActionIcon extends React.PureComponent {
-  static BACK = 'back';
-  static APPLY = 'apply';
+const ActionIcon = props => {
+  const {
+    icon,
+    onClick
+  } = props;
 
-  static propTypes = {
-    /**
-     * The icon that this element will show.
-     */
-    icon: PropTypes.oneOf([
-      ActionIcon.BACK,
-      ActionIcon.APPLY
-    ]).isRequired,
+  const _handleClick = () => onClick(icon);
 
-    /**
-     * The function to call when this element is clicked.
-     */
-    onClick: PropTypes.func.isRequired,
-  };
-
-  _handleClick = () => this.props.onClick(this.props.icon);
-
-  _getIcon = () => {
-    switch (this.props.icon) {
+  const _getIcon = () => {
+    switch (icon) {
       case ActionIcon.BACK:
         return Back;
       case ActionIcon.APPLY:
@@ -36,14 +24,34 @@ export default class ActionIcon extends React.PureComponent {
     }
   }
 
-  render() {
-    const icon = this._getIcon();
+  const iconToRender = _getIcon();
 
-    return (
-      <img
-        src={icon}
-        alt=""
-      />
-    );
-  }
+  return (
+    <img
+      className={styles.container}
+      src={iconToRender}
+      onClick={_handleClick}
+      alt=""
+    />
+  );
 }
+
+ActionIcon.BACK = 'back';
+ActionIcon.APPLY = 'apply';
+
+ActionIcon.propTypes = {
+  /**
+   * The icon that this element will show.
+   */
+  icon: PropTypes.oneOf([
+    ActionIcon.BACK,
+    ActionIcon.APPLY
+  ]).isRequired,
+
+  /**
+   * The function to call when this element is clicked.
+   */
+  onClick: PropTypes.func.isRequired,
+}
+
+export default ActionIcon;
