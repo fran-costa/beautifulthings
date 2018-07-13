@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AppLogo from './Logo.svg';
+import LogoBig from './LogoBig.svg';
+import LogoSmall from './LogoSmall.svg';
 import styles from './index.module.scss';
 
 const Logo = props => {
   const { size } = props;
 
-  const style = props.size === Logo.SMALL ? styles.small : styles.big;
+  const style = size === Logo.SMALL ? styles.small : styles.big;
+  const appLogo = size === Logo.SMALL ? LogoSmall : LogoBig;
 
   return (
     <img
       className={style}
-      src={AppLogo}
+      src={appLogo}
       alt=""
     />
   );
