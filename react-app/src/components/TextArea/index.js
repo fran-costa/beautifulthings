@@ -13,13 +13,38 @@ export default class TextArea extends React.PureComponent {
     text: PropTypes.string.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = { currentText: props.text }
-  }
+  state = { currentText: this.props.text }
 
   _setTextAreaRef = element => this._textArea = element;
+
+  _getLabel() {
+    return (
+      <label>
+        What?
+      </label>
+    );
+  }
+
+  _getTextArea() {
+    return (
+      <textarea
+        className={styles.textArea}
+        value={this.state.currentText}
+        onChange={this._handleChange}
+        ref={this._setTextAreaRef}
+      />
+    );
+  }
+
+  _getCharCounter() {
+    const currentCount = this.state.currentText.length;
+
+    return (
+      <div>
+        {currentCount}/{TextArea.MAX_LENGTH}
+      </div>
+    );
+  }
 
   _handleChange = event => {
     const newText = event.target.value;
@@ -29,22 +54,26 @@ export default class TextArea extends React.PureComponent {
 
   focus = () => this._textArea.focus();
 
-  getText = () => this.state.currentText;
+  getText() {
+    return this.state.currentText;
+  }
 
   render() {
-    const { currentText } = this.state;
+    const label = this._getLabel();
+    const textArea = this._getTextArea();
+    const charCounter = this._getCharCounter();
 
     return (
-      <div className={styles.container}>
-        <label className={styles.label}>What?</label>
-        <textarea
-          value={currentText}
-          onChange={this._handleChange}
-          ref={this._setTextAreaRef}
-        />
-        <span className={styles.charCounter}>
-          {currentText.length}/{TextArea.MAX_LENGTH}
-        </span>
+      <div>
+        <div className={styles.labelContainer}>
+          {label}
+        </div>
+        <div className={styles.textAreaContainer}>
+          {textArea}
+        </div>
+        <div className={styles.charCounterContainer}>
+          {charCounter}
+        </div>
       </div>
     );
   }

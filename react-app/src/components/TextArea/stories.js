@@ -5,4 +5,6 @@ import TextArea from './';
 
 const stories = storiesOf('TextArea', module);
 
-stories.add('TextArea', () => (<TextArea text="Example text" />));
+stories.add('TextArea', () => (
+  <TextArea text="Example text" />
+));
