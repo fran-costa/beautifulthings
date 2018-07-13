@@ -30,7 +30,7 @@ stories.add('Header with left and right icons', () => {
 
   const rightIcon =
     <ActionIcon
-      icon={ActionIcon.REMOVE}
+      icon={ActionIcon.APPLY}
       onClick={action('Right ActionIcon clicked')}
     />;
 

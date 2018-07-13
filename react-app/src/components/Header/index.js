@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Logo from 'components/Logo';
 import styles from './index.module.scss';
 
-export default class Header extends PureComponent {
+export default class Header extends React.PureComponent {
   static propTypes = {
     /**
      * The element (an ActionIcon) that this element will show in the left.
@@ -29,7 +29,7 @@ export default class Header extends PureComponent {
           {this.props.left}
         </div>
         <div className={styles.center}>
-          <Logo size={Logo.SMALL} />
+          {Logo({ size: Logo.SMALL })}
         </div>
         <div className={styles.right}>
           {this.props.right}
