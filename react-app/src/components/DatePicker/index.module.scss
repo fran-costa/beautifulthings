@@ -1,1 +1,38 @@
-.label { font-size: 14px; }
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
+
+$fontFamily: BariolRegular;
+
+.labelContainer {
+  color: $btOrange;
+  text-align: left;
+  font-size: 54px;
+  font-family: $fontFamily;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  position: relative;
+
+  .input {
+    width: 100%;
+    height: 100px;
+    color: $btGray;
+    position: relative;
+    border-radius: 15px;
+    font-size: 50px;
+    font-family: $fontFamily;
+    padding-left: 56px;
+    border: 2px solid $btLightGray;
+    padding-right: 100px;
+  }
+
+  .calendarIcon {
+    right: 20px;
+    color: $btGray;
+    font-size: 45px;
+    position: absolute;
+    align-self: center;
+  }
+}

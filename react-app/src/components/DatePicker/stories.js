@@ -5,4 +5,6 @@ import DatePicker from './';
 
 const stories = storiesOf('DatePicker', module);
 
-stories.add('DatePicker', () => <DatePicker date="2018-01-01" />);
+stories.add('DatePicker', () => (
+  <DatePicker date="2018-01-01" />
+));
