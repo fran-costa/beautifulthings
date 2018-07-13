@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 
 import ActionIcon from 'components/ActionIcon';
 import BaseScreen from 'containers/BaseScreen';
+import Button from 'components/Button';
 import DatePicker from 'components/DatePicker';
 import Header from 'components/Header';
 import TextArea from 'components/TextArea';
+
+import ApplyIcon from './Apply.png';
+import styles from './index.module.scss';
 
 export default class EditScreen extends React.PureComponent {
   static propTypes = {
@@ -82,17 +86,37 @@ export default class EditScreen extends React.PureComponent {
     />;
   }
 
+  _getApplyButton() {
+    return (
+      <Button
+        onClick={this._handleSave}
+      >
+        <img
+          className={styles.buttonImage}
+          src={ApplyIcon}
+          alt=""
+        />
+      </Button>
+    );
+  }
+
   _getMainContent() {
     const datePicker = this._getDatePicker();
     const textArea = this._getTextArea();
+    const applyButton = this._getApplyButton();
 
     return (
-      <div>
-        <div>
-          {datePicker}
-        </div>
-        <div>
-          {textArea}
+      <div className={styles.container}>
+        <div className={styles.mainContainer}>
+          <div>
+            {datePicker}
+          </div>
+          <div>
+            {textArea}
+          </div>
+          <div className={styles.buttonContainer}>
+            {applyButton}
+          </div>
         </div>
       </div>
     );

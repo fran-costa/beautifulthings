@@ -12,12 +12,11 @@ $fontFamily: BariolRegular;
 
 .textAreaContainer {
   width: 100%;
-  height: 100%;
   display: flex;
 
   .textArea {
     width: 100%;
-    height: 100%;
+    height: 500px;
     color: $btGray;
     border-radius: 15px;
     font-size: 50px;
