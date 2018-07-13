@@ -10,7 +10,6 @@ stories.addDecorator(withKnobs);
 
 const availableIcons = {
   back: ActionIcon.BACK,
-  remove: ActionIcon.REMOVE,
   apply: ActionIcon.APPLY,
 }
 

@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faTrashAlt, faCheck } from '@fortawesome/fontawesome-free-solid';
 
-export default class ActionIcon extends PureComponent {
+import Apply from './Apply.svg';
+import Back from './Back.svg';
+
+export default class ActionIcon extends React.PureComponent {
   static BACK = 'back';
-  static REMOVE = 'remove';
   static APPLY = 'apply';
 
   static propTypes = {
@@ -14,7 +14,6 @@ export default class ActionIcon extends PureComponent {
      */
     icon: PropTypes.oneOf([
       ActionIcon.BACK,
-      ActionIcon.REMOVE,
       ActionIcon.APPLY
     ]).isRequired,
 
@@ -24,16 +23,14 @@ export default class ActionIcon extends PureComponent {
     onClick: PropTypes.func.isRequired,
   };
 
-  _handleClick = event => this.props.onClick(event);
+  _handleClick = () => this.props.onClick(this.props.icon);
 
   _getIcon = () => {
     switch (this.props.icon) {
       case ActionIcon.BACK:
-        return faChevronLeft;
-      case ActionIcon.REMOVE:
-        return faTrashAlt;
+        return Back;
       case ActionIcon.APPLY:
-        return faCheck;
+        return Apply;
       default:
         return null;
     }
@@ -43,9 +40,9 @@ export default class ActionIcon extends PureComponent {
     const icon = this._getIcon();
 
     return (
-      <FontAwesomeIcon
-        icon={icon}
-        onClick={this._handleClick}
+      <img
+        src={icon}
+        alt=""
       />
     );
   }
