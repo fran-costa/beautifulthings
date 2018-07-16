@@ -1,0 +1,20 @@
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
+
+.common {
+  width: 100%;
+  color: white;
+  font-size: 54pt;
+  border-radius: 15px;
+  font-family: BariolRegular;
+}
+
+.normal {
+  @extend .common;
+  background-color: $violet;
+}
+
+.disabled {
+  @extend .common;
+  background-color: $lightGray;
+}

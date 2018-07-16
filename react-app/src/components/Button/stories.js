@@ -8,18 +8,10 @@ import Button from './';
 const stories = storiesOf('Button', module);
 stories.addDecorator(withKnobs);
 
-stories.add('Text button with onClick prop', () => (
+stories.add('Text button', () => (
   <Button
     disabled={boolean('Disabled', false)}
     onClick={action('Button clicked')}
-  >
-    Text
-  </Button>
-));
-
-stories.add('Text button without onClick prop', () => (
-  <Button
-    disabled={boolean('Disabled', false)}
   >
     Text
   </Button>
