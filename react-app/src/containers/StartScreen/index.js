@@ -9,16 +9,14 @@ import Button from 'components/Button';
 import styles from './index.module.scss';
 
 export default class StartScreen extends React.PureComponent {
-  static propTypes = { onSignUp: PropTypes.func.isRequired }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      username: '',
-      password: '',
-    };
+  static propTypes = {
+    onSignUp: PropTypes.func.isRequired,
   }
+
+  state = {
+    username: '',
+    password: '',
+  };
 
   _handleChanges = (username, password) => this.setState({ username, password });
   _handlePasswordEnter = () => this._signIn();
@@ -27,15 +25,38 @@ export default class StartScreen extends React.PureComponent {
   _handleSignIn = () => this._signIn();
 
   _signIn() {
-    const {username, password} = this.state;
+    const { username, password } = this.state;
 
     if (!Account.validateUserPass(username, password)) return;
 
     // TODO: Show spinner, create account and signin
   }
 
+  _getSignInButton() {
+    const { username, password } = this.state;
+    const validUserPass = Account.validateUserPass(username, password);
+
+    return (
+      <Button
+        disabled={!validUserPass}
+        onClick={this._handleSignIn}
+      >
+        Sign in
+      </Button>
+    );
+  }
+
+  _getSignUpButton() {
+    return (
+      <Button onClick={this._handleSignUp}>
+        Sign up
+      </Button>
+    );
+  }
+
   render() {
-    const validUserPass = Account.validateUserPass(this.state.username, this.state.password);
+    const signInButton = this._getSignInButton();
+    const signUpButton = this._getSignUpButton();
 
     return (
       <BaseUserPassScreen
@@ -43,15 +64,15 @@ export default class StartScreen extends React.PureComponent {
         onPasswordEnter={this._handlePasswordEnter}
       >
         <div className={styles.container}>
-          <Button
-            disabled={!validUserPass}
-            onClick={this._handleSignIn}
-          >
-            Sign In
-          </Button>
-          <Button onClick={this._handleSignUp}>
-            Sign Up
-          </Button>
+          <div>
+            {signInButton}
+          </div>
+          <div className={styles.createAccountLabelContainer}>
+            - Create your account -
+          </div>
+          <div>
+            {signUpButton}
+          </div>
         </div>
       </BaseUserPassScreen>
     );

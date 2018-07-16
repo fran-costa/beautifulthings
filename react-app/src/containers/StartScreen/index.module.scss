@@ -1,5 +1,16 @@
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
+
 .container {
+  margin-top: 63px;
   display: flex;
   text-align: center;
   flex-direction: column;
+
+  .createAccountLabelContainer {
+    margin: 33px 0;
+    font-size: 41px;
+    color: $lightGray;
+    font-family: BariolRegular;
+  }
 }
