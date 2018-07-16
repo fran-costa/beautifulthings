@@ -1,5 +1,17 @@
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
+
 .container {
+  margin-top: 63px;
   display: flex;
   text-align: center;
   flex-direction: column;
+
+  .signInLinkContainer {
+    margin-top: 33px;
+    font-size: 41px;
+    padding: 10px;
+    color: $blue;
+    font-family: BariolRegular;
+  }
 }
