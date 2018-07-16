@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faTrashAlt, faCheck, faAngleUp, faAngleDown, faBars } from '@fortawesome/fontawesome-free-solid';
+
+import styles from './index.module.scss';
 
 export default class ActionIcon extends React.PureComponent {
   static BACK = 'back';
-  static REMOVE = 'remove';
   static APPLY = 'apply';
   static EXPAND = 'expand';
   static COLLAPSE = 'collapse';
@@ -17,7 +16,6 @@ export default class ActionIcon extends React.PureComponent {
      */
     icon: PropTypes.oneOf([
       ActionIcon.BACK,
-      ActionIcon.REMOVE,
       ActionIcon.APPLY,
       ActionIcon.EXPAND,
       ActionIcon.COLLAPSE,
@@ -32,31 +30,29 @@ export default class ActionIcon extends React.PureComponent {
 
   _handleClick = () => this.props.onClick(this.props.icon);
 
-  _getIcon = () => {
+  _getStyle = () => {
     switch (this.props.icon) {
       case ActionIcon.BACK:
-        return faChevronLeft;
-      case ActionIcon.REMOVE:
-        return faTrashAlt;
+        return styles.back;
       case ActionIcon.APPLY:
-        return faCheck;
+        return styles.apply;
       case ActionIcon.EXPAND:
-        return faAngleDown;
+        return styles.expand;
       case ActionIcon.COLLAPSE:
-        return faAngleUp;
+        return styles.collapse;
       case ActionIcon.SETTINGS:
-        return faBars;
+        return styles.settings;
       default:
         return null;
     }
   }
 
   render() {
-    const icon = this._getIcon();
+    const style = this._getStyle();
 
     return (
-      <FontAwesomeIcon
-        icon={icon}
+      <div
+        className={style}
         onClick={this._handleClick}
       />
     );
