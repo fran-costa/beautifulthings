@@ -1,11 +1,43 @@
-.label { font-size: 14px; }
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
 
-.password { padding-right: 25px; }
+$fontSize: 54pt;
+$fontFamily: BariolRegular;
 
-.showHideButton {
-  color: #777;
-  font-size: 12px;
+.labelContainer {
+  color: $green;
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: $fontSize;
+  font-family: $fontFamily;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
   position: relative;
-  margin-left: -20px;
-  cursor: pointer;
+
+  .text {
+    width: 100%;
+    height: 100px;
+    color: $darkGray;
+    position: relative;
+    border-radius: 15px;
+    font-size: $fontSize;
+    font-family: $fontFamily;
+    border: 2px solid $lightGray;
+  }
+
+  .password {
+    @extend .text;
+    padding-right: 120px;
+  }
+
+  .showHideButton {
+    right: 20px;
+    color: $darkGray;
+    font-size: 45pt;
+    position: absolute;
+    align-self: center;
+  }
 }
