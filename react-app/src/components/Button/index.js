@@ -36,16 +36,18 @@ export default class Button extends React.PureComponent {
 
   render() {
     const { disabled, children } = this.props;
-    const style = !disabled ? styles.normal : styles.disabled;
+    const style = !disabled ? styles.enabled : styles.disabled;
 
     return (
-      <button
-        className={style}
-        disabled={disabled}
-        onClick={this._handleClick}
-      >
-        {children}
-      </button>
+      <div className={style}>
+        <button
+          className={styles.button}
+          disabled={disabled}
+          onClick={this._handleClick}
+        >
+          {children}
+        </button>
+      </div>
     );
   }
 }

@@ -1,7 +1,16 @@
 @import 'styles/colors.scss';
 @import 'styles/fonts.scss';
 
-.common {
+$backgroundColorEnabled: $violet;
+$backgroundColorDisabled: $lightGray;
+
+.container {
+  width: 100%;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.buttonCommons {
   width: 100%;
   color: white;
   font-size: 54px;
@@ -9,12 +18,28 @@
   font-family: BariolRegular;
 }
 
-.normal {
-  @extend .common;
-  background-color: $violet;
+.enabled {
+  @extend .container;
+  background-color: $backgroundColorEnabled;
+
+  .button {
+    @extend .buttonCommons;
+    background-color: $backgroundColorEnabled;
+    border: 3px solid $backgroundColorEnabled;
+  }
+
+  .button:active {
+    border: 3px solid white;
+  }
 }
 
 .disabled {
-  @extend .common;
-  background-color: $lightGray;
+  @extend .container;
+  background-color: $backgroundColorDisabled;
+
+  .button {
+    @extend .buttonCommons;
+    background-color: $backgroundColorDisabled;
+    border: 3px solid $backgroundColorDisabled;
+  }
 }
