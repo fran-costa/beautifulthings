@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ActionIcon from 'components/ActionIcon';
 import BaseScreen from 'containers/BaseScreen';
 import Button from 'components/Button';
-import Header from 'components/Header';
+import HeaderListScreen from 'components/HeaderListScreen';
 import ListItem from 'components/ListItem';
 import Welcome from 'components/Welcome';
+
+import AddButton from './AddButton.svg';
+import styles from './index.module.scss';
 
 export default class ListScreen extends React.PureComponent {
   static propTypes = {
@@ -16,7 +18,7 @@ export default class ListScreen extends React.PureComponent {
     entries: PropTypes.arrayOf(PropTypes.shape({
       date: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-    })),
+    })).isRequired,
 
     /**
      * The function to call when add button is tapped
@@ -39,50 +41,73 @@ export default class ListScreen extends React.PureComponent {
     onSettings: PropTypes.func.isRequired,
   }
 
-  static defaultProps = { entries: [] }
-
-  constructor(props) {
-    super(props);
-
-    this.state = { items: props.entries }
-  }
-
-  _handleSettingsClick = () => this.props.onSettings();
-
-  _handleEditClick = entryDate => this.props.onEdit(entryDate);
-  _handleDeleteClick = entryDate => this.props.onRemove(entryDate);
+  _handleEdit = entryDate => this.props.onEdit(entryDate);
+  _handleDelete = entryDate => this.props.onRemove(entryDate);
 
   _getHeader() {
-    const settingsIcon = <ActionIcon
-      icon={ActionIcon.SETTINGS}
-      onClick={this._handleSettingsClick}
-    />;
-
-    return <Header left={settingsIcon} />;
+    return HeaderListScreen({ onSettings: this.props.onSettings });
   }
 
-  _getItemsList() {
-    const list = this.state.items.map((entry, index) => <ListItem
-      key={index}
-      date={entry.date}
-      text={entry.text}
-      onEdit={this._handleEdit}
-      onDelete={this._handleDelete}
-    />);
+  _getContent() {
+    const { entries } = this.props;
 
-    return <div>{list}</div>;
+    if (!entries.length) return (
+      <div className={styles.mainContainer}>
+        {Welcome()}
+      </div>
+    );
+
+    const list = entries.map((entry, index) => (
+      <div
+        className={styles.itemsContainer}
+        key={index}
+      >
+        <ListItem
+          date={entry.date}
+          text={entry.text}
+          onEdit={this._handleEdit}
+          onDelete={this._handleDelete}
+        />
+      </div>
+    ));
+
+    return (
+      <div className={styles.mainContainer}>
+        {list}
+      </div>
+    );
+  }
+
+  _getFooter() {
+    const addButtonImage = (
+      <img
+        src={AddButton}
+        alt=""
+      />
+    );
+
+    const button = Button({
+      onClick: this.props.onAdd,
+      isSmall: true,
+      children: addButtonImage,
+    });
+
+    return (
+      <div className={styles.footer}>
+        {button}
+      </div>
+    );
   }
 
   render() {
     const header = this._getHeader();
-    const content = this.state.items.length > 0 ? this._getItemsList() : <Welcome />;
-    const footer = <Button onClick={this.props.onAdd}>Add</Button>;
+    const content = this._getContent();
+    const footer = this._getFooter();
 
-    return <BaseScreen
-      header={header}
-      main={content}
-      footer={footer}
-    />;
+    return BaseScreen({
+      header: header,
+      main: content,
+      footer: footer,
+    });
   }
-
 }
