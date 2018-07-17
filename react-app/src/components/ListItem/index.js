@@ -29,7 +29,9 @@ export default class ListItem extends React.PureComponent {
     onDelete: PropTypes.func.isRequired,
   };
 
-  state = { expanded: false };
+  state = {
+    expanded: false,
+  };
 
   _handleEdit = () => this.props.onEdit(this.props.date);
   _handleDelete = () => this.props.onDelete(this.props.date);
@@ -39,43 +41,92 @@ export default class ListItem extends React.PureComponent {
   _getActionIcon() {
     const icon = this.state.expanded ? ActionIcon.COLLAPSE : ActionIcon.EXPAND;
 
-    return <ActionIcon
-      icon={icon}
-      onClick={this._toggleExpanded}
-    />;
+    return (
+      <ActionIcon
+        icon={icon}
+        onClick={this._toggleExpanded}
+      />
+    );
+  }
+
+  _getDivider() {
+    if (!this.state.expanded) return null;
+
+    return <div className={styles.divider} />;
   }
 
   _getEditButton() {
-    return <Button onClick={this._handleEdit}>Edit</Button>;
+    return (
+      <Button
+        isSmall={true}
+        onClick={this._handleEdit}
+      >
+        Edit
+      </Button>
+    );
   }
 
   _getDeleteButton() {
-    return <Button onClick={this._handleDelete}>Delete</Button>;
+    return (
+      <Button
+        isSmall={true}
+        onClick={this._handleDelete}
+      >
+        Delete
+      </Button>
+    );
+  }
+
+  _getButtonsContainer() {
+    if (!this.state.expanded) return null;
+
+    const editButton = this._getEditButton();
+    const deleteButton = this._getDeleteButton();
+
+    return (
+      <div className={styles.buttonsContainer}>
+        <div className={styles.buttonDelete}>
+          {deleteButton}
+        </div>
+        <div>
+          {editButton}
+        </div>
+      </div>
+    );
   }
 
   render() {
+    const { expanded } = this.state;
+    const { date, text } = this.props;
     const icon = this._getActionIcon();
-    const editButton = this.state.expanded ? this._getEditButton() : null;
-    const deleteButton = this.state.expanded ? this._getDeleteButton() : null;
-
-    const textStyle = this.state.expanded ? styles.expanded : styles.collapsed;
+    const textPreview = !expanded ? text : null;
+    const divider = this._getDivider();
+    const fullText = expanded ? text : null;
+    const buttonsContainer = this._getButtonsContainer();
 
     return (
       <div className={styles.container}>
-        <div className={styles.entry}>
+        <div className={styles.topContainer}>
+          <div className={styles.datePreviewContainer}>
+            <div className={styles.dateContainer}>
+              {date}
+            </div>
+            <div className={styles.previewContainer}>
+              {textPreview}
+            </div>
+          </div>
           <div>
-            {this.props.date}
-          </div>
-          <div className={textStyle}>
-            {this.props.text}
-          </div>
-          <div className={styles.buttonsContainer}>
-            {editButton}
-            {deleteButton}
+            {icon}
           </div>
         </div>
         <div>
-          {icon}
+          {divider}
+        </div>
+        <div className={styles.fullTextContainer}>
+          {fullText}
+        </div>
+        <div>
+          {buttonsContainer}
         </div>
       </div>
     );

@@ -10,9 +10,8 @@ stories.addDecorator(withKnobs);
 
 stories.add('ListItem', () => (
   <ListItem
-    id={0}
     date={'2018-01-01'}
-    text={text('Text', 'Text to be shown')}
+    text={text('Text', 'Today I crossed a beautiful dog very similar to Bobby, my childhood pet.')}
     onEdit={action('Edit clicked')}
     onDelete={action('Delete clicked')}
   />
