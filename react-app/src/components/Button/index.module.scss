@@ -1,31 +1,33 @@
 @import 'styles/colors.scss';
 @import 'styles/fonts.scss';
 
-$backgroundColorEnabled: $violet;
-$backgroundColorDisabled: $lightGray;
+$backgroundColorNormalEnabled: $violet;
+$backgroundColorNormalDisabled: $lightGray;
 
-.container {
-  width: 100%;
+$backgroundColorSmallEnabled: white;
+$backgroundColorSmallDisabled: $lightGray;
+
+.containerCommons {
   padding: 5px;
   border-radius: 15px;
 }
 
 .buttonCommons {
   width: 100%;
-  color: white;
-  font-size: 54px;
   border-radius: 15px;
   font-family: BariolRegular;
 }
 
-.enabled {
-  @extend .container;
-  background-color: $backgroundColorEnabled;
+.normalEnabled {
+  @extend .containerCommons;
+  background-color: $backgroundColorNormalEnabled;
 
   .button {
     @extend .buttonCommons;
-    background-color: $backgroundColorEnabled;
-    border: 3px solid $backgroundColorEnabled;
+    color: white;
+    font-size: 54px;
+    background-color: $backgroundColorNormalEnabled;
+    border: 3px solid $backgroundColorNormalEnabled;
   }
 
   .button:active {
@@ -33,13 +35,48 @@ $backgroundColorDisabled: $lightGray;
   }
 }
 
-.disabled {
-  @extend .container;
-  background-color: $backgroundColorDisabled;
+.normalDisabled {
+  @extend .containerCommons;
+  background-color: $backgroundColorNormalDisabled;
 
   .button {
     @extend .buttonCommons;
-    background-color: $backgroundColorDisabled;
-    border: 3px solid $backgroundColorDisabled;
+    font-size: 54px;
+    background-color: $backgroundColorNormalDisabled;
+    border: 3px solid $backgroundColorNormalDisabled;
+  }
+}
+
+.smallEnabled {
+  @extend .containerCommons;
+  display: inline-block;
+  border: 2px solid $lightGray;
+  background-color: $backgroundColorSmallEnabled;
+
+  .button {
+    @extend .buttonCommons;
+    color: $violet;
+    font-size: 49px;
+    background-color: $backgroundColorSmallEnabled;
+    border: 3px solid $backgroundColorSmallEnabled;
+  }
+
+  .button:active {
+    border: 3px solid $violet;
+  }
+}
+
+.smallDisabled {
+  @extend .containerCommons;
+  display: inline-block;
+  border: 2px solid $lightGray;
+  background-color: $backgroundColorSmallDisabled;
+
+  .button {
+    @extend .buttonCommons;
+    color: $violet;
+    font-size: 49px;
+    background-color: $backgroundColorSmallDisabled;
+    border: 3px solid $backgroundColorSmallDisabled;
   }
 }

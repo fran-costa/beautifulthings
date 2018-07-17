@@ -8,10 +8,20 @@ import Button from './';
 const stories = storiesOf('Button', module);
 stories.addDecorator(withKnobs);
 
-stories.add('Text button', () => (
+stories.add('Normal text button', () => (
   <Button
     disabled={boolean('Disabled', false)}
     onClick={action('Button clicked')}
+  >
+    Text
+  </Button>
+));
+
+stories.add('Small text button', () => (
+  <Button
+    disabled={boolean('Disabled', false)}
+    onClick={action('Button clicked')}
+    isSmall={true}
   >
     Text
   </Button>

@@ -22,10 +22,16 @@ export default class Button extends React.PureComponent {
      * Whether this button is disabled or not.
      */
     disabled: PropTypes.bool,
+
+    /**
+     * Whether this button is the small one or not. Default value: false
+     */
+    isSmall: PropTypes.bool,
   };
 
   static defaultProps = {
     disabled: false,
+    isSmall: false,
   }
 
   _handleClick = () => {
@@ -35,8 +41,15 @@ export default class Button extends React.PureComponent {
   };
 
   render() {
-    const { disabled, children } = this.props;
-    const style = !disabled ? styles.enabled : styles.disabled;
+    const { disabled, isSmall, children } = this.props;
+    let style;
+    if (isSmall) {
+      if (disabled) style = styles.smallDisabled;
+      else style = styles.smallEnabled;
+    } else {
+      if (disabled) style = styles.normalDisabled;
+      else style = styles.normalEnabled;
+    }
 
     return (
       <div className={style}>
