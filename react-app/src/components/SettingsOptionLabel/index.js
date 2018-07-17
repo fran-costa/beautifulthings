@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faBell, faStar, faShare, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 
-export default class SettingsOptionLabel extends PureComponent {
+import styles from './index.module.scss';
+
+export default class SettingsOptionLabel extends React.PureComponent {
   static NOTIFICATION = 'notification';
-  static STAR = 'star';
-  static SHARE = 'share';
   static SIGNOUT = 'signout';
 
   static propTypes = {
@@ -15,8 +13,6 @@ export default class SettingsOptionLabel extends PureComponent {
      */
     icon: PropTypes.oneOf([
       SettingsOptionLabel.NOTIFICATION,
-      SettingsOptionLabel.STAR,
-      SettingsOptionLabel.SHARE,
       SettingsOptionLabel.SIGNOUT,
     ]).isRequired,
 
@@ -39,36 +35,40 @@ export default class SettingsOptionLabel extends PureComponent {
   static defaultProps = {
     onClick: null,
     children: null,
+  };
+
+  _handleClick = () => {
+    if (this.props.onClick) this.props.onClick();
   }
 
-  _handleClick = () => this.props.onClick ? this.props.onClick() : null;
-
-  _getIcon = () => {
+  _getIconStyle() {
     switch (this.props.icon) {
       case SettingsOptionLabel.NOTIFICATION:
-        return faBell;
-      case SettingsOptionLabel.STAR:
-        return faStar;
-      case SettingsOptionLabel.SHARE:
-        return faShare;
+        return styles.notifications;
       case SettingsOptionLabel.SIGNOUT:
-        return faSignOutAlt;
+        return styles.signOut;
       default:
         return null;
     }
   }
 
   render() {
-    const icon = this._getIcon();
+    const { text, children } = this.props;
+    const iconStyle = this._getIconStyle();
 
     return (
-      <div onClick={this._handleClick}>
-        <div>
-          <FontAwesomeIcon icon={icon} />
-          {this.props.text}
+      <div
+        className={styles.container}
+        onClick={this._handleClick}
+      >
+        <div className={styles.labelContainer}>
+          <div className={iconStyle} />
+          <div>
+            {text}
+          </div>
         </div>
         <div>
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
