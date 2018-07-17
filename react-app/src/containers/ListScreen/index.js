@@ -10,47 +10,23 @@ import Welcome from 'components/Welcome';
 import AddButton from './AddButton.svg';
 import styles from './index.module.scss';
 
-export default class ListScreen extends React.PureComponent {
-  static propTypes = {
-    /**
-     * The set of entries to draw in the list
-     */
-    entries: PropTypes.arrayOf(PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-    })).isRequired,
+const ListScreen = props => {
+  const {
+    entries,
+    onAdd,
+    onEdit,
+    onRemove,
+    onSettings,
+  } = props;
 
-    /**
-     * The function to call when add button is tapped
-     */
-    onAdd: PropTypes.func.isRequired,
+  const _handleEdit = entryDate => onEdit(entryDate);
+  const _handleDelete = entryDate => onRemove(entryDate);
 
-    /**
-     * The function to call when edit button is tapped over an entry
-     */
-    onEdit: PropTypes.func.isRequired,
-
-    /**
-     * The function to call when remove button is tapped over an entry
-     */
-    onRemove: PropTypes.func.isRequired,
-
-    /**
-     * The function to call when setting icon is tapped
-     */
-    onSettings: PropTypes.func.isRequired,
+  function _getHeader() {
+    return HeaderListScreen({onSettings});
   }
 
-  _handleEdit = entryDate => this.props.onEdit(entryDate);
-  _handleDelete = entryDate => this.props.onRemove(entryDate);
-
-  _getHeader() {
-    return HeaderListScreen({ onSettings: this.props.onSettings });
-  }
-
-  _getContent() {
-    const { entries } = this.props;
-
+  function _getContent() {
     if (!entries.length) return (
       <div className={styles.mainContainer}>
         {Welcome()}
@@ -65,8 +41,8 @@ export default class ListScreen extends React.PureComponent {
         <ListItem
           date={entry.date}
           text={entry.text}
-          onEdit={this._handleEdit}
-          onDelete={this._handleDelete}
+          onEdit={_handleEdit}
+          onDelete={_handleDelete}
         />
       </div>
     ));
@@ -78,7 +54,7 @@ export default class ListScreen extends React.PureComponent {
     );
   }
 
-  _getFooter() {
+  function _getFooter() {
     const addButtonImage = (
       <img
         src={AddButton}
@@ -87,7 +63,7 @@ export default class ListScreen extends React.PureComponent {
     );
 
     const button = Button({
-      onClick: this.props.onAdd,
+      onClick: onAdd,
       isSmall: true,
       children: addButtonImage,
     });
@@ -99,15 +75,45 @@ export default class ListScreen extends React.PureComponent {
     );
   }
 
-  render() {
-    const header = this._getHeader();
-    const content = this._getContent();
-    const footer = this._getFooter();
+  const header = _getHeader();
+  const content = _getContent();
+  const footer = _getFooter();
 
-    return BaseScreen({
-      header: header,
-      main: content,
-      footer: footer,
-    });
-  }
+  return BaseScreen({
+    header,
+    main: content,
+    footer,
+  });
 }
+
+ListScreen.propTypes = {
+  /**
+   * The set of entries to draw in the list
+   */
+  entries: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+  })).isRequired,
+
+  /**
+   * The function to call when add button is tapped
+   */
+  onAdd: PropTypes.func.isRequired,
+
+  /**
+   * The function to call when edit button is tapped over an entry
+   */
+  onEdit: PropTypes.func.isRequired,
+
+  /**
+   * The function to call when remove button is tapped over an entry
+   */
+  onRemove: PropTypes.func.isRequired,
+
+  /**
+   * The function to call when setting icon is tapped
+   */
+  onSettings: PropTypes.func.isRequired,
+}
+
+export default ListScreen;
