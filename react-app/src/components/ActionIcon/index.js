@@ -23,6 +23,8 @@ const ActionIcon = props => {
         return styles.collapse;
       case ActionIcon.SETTINGS:
         return styles.settings;
+      case ActionIcon.HIDE:
+        return styles.hide;
       default:
         return null;
     }
@@ -43,6 +45,7 @@ ActionIcon.APPLY = 'apply';
 ActionIcon.EXPAND = 'expand';
 ActionIcon.COLLAPSE = 'collapse';
 ActionIcon.SETTINGS = 'settings';
+ActionIcon.HIDE = 'hide';
 
 ActionIcon.propTypes = {
   /**

@@ -4,6 +4,7 @@ $icons: (
   expand: './Expand.svg',
   collapse: './Expand.svg',
   settings: './Settings.svg',
+  hide: './Hide.svg',
 );
 
 @each $icon, $source in $icons {
