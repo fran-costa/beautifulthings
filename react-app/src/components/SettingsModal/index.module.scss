@@ -1,32 +1,113 @@
+@import 'styles/colors.scss';
+@import 'styles/fonts.scss';
+
 .container {
+  width: 70%;
+  min-width: 500px;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   background-color: white;
-}
+  font-family: BariolRegular;
 
-.topBottomElement {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
+  .headerContainer {
+    flex-grow: 1;
+    display: flex;
+    max-height: 300px;
+    flex-direction: column;
 
-.top {
-  @extend .topBottomElement;
-  border-bottom: 1px solid gray;
+    .fullContainer {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
 
-  .hideContainer { align-self: flex-end; }
-}
+      .space {
+        flex-grow: 1;
+      }
 
-.middle {
-  flex-grow: 8;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+      .hideIconContainer {
+        margin-right: 62px;
+        align-self: flex-end;
+      }
 
-.bottom {
-  @extend .topBottomElement;
-  border-top: 1px solid gray;
+      .usernameContainer {
+        width: 100%;
+        font-size: 67px;
+        color: $darkGray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .calendarIcon {
+          min-width: 100px;
+          min-height: 100px;
+          margin-right: 50px;
+          background: url('./Calendar.svg') center center/100px 100px no-repeat;
+        }
+
+        .textContainer {
+          overflow-x: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .mainContainer {
+    flex-grow: 4;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid $darkGray;
+    border-bottom: 1px solid $darkGray;
+
+    .fullContainer {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+
+      .marginLeft {
+        flex-grow: 1;
+        min-width: 10px;
+        max-width: 100px;
+      }
+
+      .mainContainer {
+        display: flex;
+        flex-direction: column;
+
+        .marginTop {
+          flex-grow: 1;
+          min-height: 10px;
+          max-height: 100px;
+        }
+
+        .labelContainer {
+          margin-bottom: 50px;
+
+          .radioButtonsContainer {
+            margin-top: 33px;
+            margin-left: 85px;
+            display: flex;
+
+            .radioButtonDailyContainer {
+              margin-right: 25px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footerContainer {
+    flex-grow: 1;
+    align-self: center;
+    max-width: 480px;
+    max-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

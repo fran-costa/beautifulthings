@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import ActionIcon from 'components/ActionIcon';
 import BaseModal from 'components/BaseModal';
 import Logo from 'components/Logo';
+import RadioButton from 'components/RadioButton';
 import SettingsOptionLabel from 'components/SettingsOptionLabel';
 
 import styles from './index.module.scss';
 
-export default class SettingsModal extends PureComponent {
+export default class SettingsModal extends React.PureComponent {
   static propTypes = {
     /**
      * Whenever the modal is visible or not
@@ -36,81 +37,96 @@ export default class SettingsModal extends PureComponent {
     onSignOut: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = { isDaily: this.props.daily }
-  }
+  state = {
+    isDaily: this.props.daily,
+  };
 
   _toggleNotifications = () => this.setState({ isDaily: !this.state.isDaily });
 
-  _getTopElement() {
+  _handleHide = () => this.props.onHide(this.state.isDaily);
+
+  _getHeader() {
     return (
-      <div className={styles.top}>
-        <div className={styles.hideContainer}>
-          <ActionIcon
-            icon={ActionIcon.BACK}
-            onClick={this.props.onHide}
-          />
+      <div className={styles.fullContainer}>
+        <div className={styles.space} />
+        <div className={styles.hideIconContainer}>
+          {ActionIcon({
+            icon: ActionIcon.HIDE,
+            onClick: this._handleHide,
+          })}
+        </div>
+        <div className={styles.space} />
+        <div className={styles.usernameContainer}>
+          <div className={styles.calendarIcon} />
+          <div className={styles.textContainer}>
+            {this.props.username}
+          </div>
+        </div>
+        <div className={styles.space} />
+      </div>
+    );
+  }
+
+  _getMain() {
+    const { isDaily } = this.state;
+
+    const radioButtons = (
+      <div className={styles.radioButtonsContainer}>
+        <div className={styles.radioButtonDailyContainer}>
+          {RadioButton({
+            label: "Daily",
+            selected: isDaily,
+            onClick: this._toggleNotifications
+          })}
         </div>
         <div>
-          <Logo size="small" />
-          {this.props.username}
+          {RadioButton({
+            label: "Weekly",
+            selected: !isDaily,
+            onClick: this._toggleNotifications
+          })}
+        </div>
+      </div>
+    );
+
+    const notifications = SettingsOptionLabel({
+      icon: SettingsOptionLabel.NOTIFICATION,
+      text: 'Notifications',
+      children: radioButtons,
+    });
+
+    const signOut = SettingsOptionLabel({
+      icon: SettingsOptionLabel.SIGNOUT,
+      text: 'Sign out',
+      onClick: this.props.onSignOut,
+    });
+
+    return (
+      <div className={styles.fullContainer}>
+        <div className={styles.marginLeft} />
+        <div className={styles.mainContainer}>
+          <div className={styles.marginTop} />
+          <div>
+            <div className={styles.labelContainer}>
+              {notifications}
+            </div>
+            <div  className={styles.labelContainer}>
+              {signOut}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  _getBottomElement() {
-    return (
-      <div className={styles.bottom}>
-        <Logo size="big" />
-      </div>
-    );
-  }
-
-  _getMiddleElement() {
-    return (
-      <div className={styles.middle}>
-        <SettingsOptionLabel
-          icon={SettingsOptionLabel.NOTIFICATION}
-          text="Notifications">
-          <div>
-            <label>
-              <input
-                type="radio"
-                checked={this.state.isDaily}
-                onChange={this._toggleNotifications}
-              />
-              Daily
-            </label>
-            <label>
-              <input
-                type="radio"
-                checked={!this.state.isDaily}
-                onChange={this._toggleNotifications}
-              />
-              Weekly
-            </label>
-          </div>
-        </SettingsOptionLabel>
-        <SettingsOptionLabel
-          icon={SettingsOptionLabel.SIGNOUT}
-          text="Sign out"
-          onClick={this.props.onSignOut}
-        />
-      </div>
-    );
-  }
-
-  isDaily() {
-    return this.state.isDaily;
+  _getFooter() {
+    return Logo({ size: Logo.BIG });
   }
 
   render() {
-    const top = this._getTopElement();
-    const middle = this._getMiddleElement();
-    const bottom = this._getBottomElement();
+    const header = this._getHeader();
+    const main = this._getMain()
+    const footer = this._getFooter();
 
     return (
       <BaseModal
@@ -118,9 +134,15 @@ export default class SettingsModal extends PureComponent {
         leftModal={true}
       >
         <div className={styles.container}>
-          {top}
-          {middle}
-          {bottom}
+          <div className={styles.headerContainer}>
+            {header}
+          </div>
+          <div className={styles.mainContainer}>
+            {main}
+          </div>
+          <div className={styles.footerContainer}>
+            {footer}
+          </div>
         </div>
       </BaseModal>
     );
