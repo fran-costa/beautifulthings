@@ -14,16 +14,11 @@ export default class EditScreenWrapper extends React.PureComponent {
     onSave: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-
-    const date = props.match.params.date || getCurrentDateString();
-    this.state = {
-      date,
-      text: '',
-      unsavedChangesModalVisible: false,
-    };
-  }
+  state = {
+    date: this.props.match.params.date || getCurrentDateString(),
+    text: '',
+    unsavedChangesModalVisible: false,
+  };
 
   componentWillMount() {
     const dateToEdit = this.props.match.params.date;
@@ -44,30 +39,40 @@ export default class EditScreenWrapper extends React.PureComponent {
   _hideUnsavedChangesModal = () => this.setState({ unsavedChangesModalVisible: false });
 
   _getUnsavedChangesModal() {
-    const doNotLeaveButton = <Button onClick={this._hideUnsavedChangesModal}>No</Button>;
-    const leaveButton = <Button onClick={this.props.onBack}>Yes</Button>;
+    const doNotLeaveButton = Button({
+      children: "No",
+      onClick: this._hideUnsavedChangesModal,
+      small: true,
+    });
 
-    return <ButtonsModal
-      visible={this.state.unsavedChangesModalVisible}
-      message='Do you want to discard changes?'
-      primaryButton={doNotLeaveButton}
-      secondaryButton={leaveButton}
-    />
+    const leaveButton = Button({
+      children: "Yes",
+      onClick: this.props.onBack,
+      small: true,
+    });
+
+    return ButtonsModal({
+      visible: this.state.unsavedChangesModalVisible,
+      message: "Do you want to discard changes?",
+      primaryButton: doNotLeaveButton,
+      secondaryButton: leaveButton,
+    });
   }
 
   render() {
     const { date, text } = this.state;
-
     const unsavedChangesModal = this._getUnsavedChangesModal();
 
-    return <div>
-      {unsavedChangesModal}
-      <EditScreen
-        date={date}
-        text={text}
-        onBack={this._handleBack}
-        onSave={this._handleSave}
-      />
-    </div>;
+    return (
+      <div>
+        {unsavedChangesModal}
+        <EditScreen
+          date={date}
+          text={text}
+          onBack={this._handleBack}
+          onSave={this._handleSave}
+        />
+      </div>
+    );
   }
 }
