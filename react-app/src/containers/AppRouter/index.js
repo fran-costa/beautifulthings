@@ -1,9 +1,10 @@
 import React from 'react';
-import { HashRouter, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 import EditScreenWrapper from 'containers/EditScreenWrapper';
 import ListScreenWrapper from 'containers/ListScreenWrapper';
 import SignUpScreen from 'containers/SignUpScreen';
+import SplashScreen from 'containers/SplashScreen';
 import StartScreen from 'containers/StartScreen';
 
 class AppRouter extends React.PureComponent {
@@ -12,6 +13,12 @@ class AppRouter extends React.PureComponent {
   _showListScreen = () => window.location.hash = '/list';
   _showAddScreen = () => window.location.hash = '/add';
   _showEditScreen = entryDate => window.location.hash = `/edit/${entryDate}`;
+
+  _getSplashScreen = props => <SplashScreen
+    {...props}
+    onSignedIn={this._showListScreen}
+    onNotSignedIn={this._showStartScreen}
+  />
 
   _getStartScreen = props => <StartScreen
     {...props}
@@ -29,6 +36,7 @@ class AppRouter extends React.PureComponent {
     {...props}
     onAdd={this._showAddScreen}
     onEdit={this._showEditScreen}
+    onSignOut={this._showStartScreen}
   />
 
   _getEditScreen = props => <EditScreenWrapper
@@ -41,7 +49,7 @@ class AppRouter extends React.PureComponent {
     return (
       <HashRouter>
         <div>
-          <Redirect exact path="/" to="/start" />
+          <Route exact path="/" render={this._getSplashScreen} />
           <Route exact path="/start" render={this._getStartScreen} />
           <Route exact path="/signup" render={this._getSignUpScreen} />
           <Route exact path="/list" render={this._getListScreen} />
