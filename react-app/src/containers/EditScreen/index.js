@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 
 import ActionIcon from 'components/ActionIcon';
 import BaseScreen from 'containers/BaseScreen';
+import Button from 'components/Button';
 import DatePicker from 'components/DatePicker';
 import Header from 'components/Header';
 import TextArea from 'components/TextArea';
+
+import styles from './index.module.scss';
 
 export default class EditScreen extends React.PureComponent {
   static propTypes = {
@@ -52,20 +55,27 @@ export default class EditScreen extends React.PureComponent {
   }
 
   _getHeader() {
-    const backIcon = <ActionIcon
-      icon={ActionIcon.BACK}
-      onClick={this._handleBack}
-    />;
+    const backIcon = ActionIcon({
+      icon: ActionIcon.BACK,
+      onClick: this._handleBack,
+    });
 
-    const applyIcon = <ActionIcon
-      icon={ActionIcon.APPLY}
-      onClick={this._handleSave}
-    />;
+    const applyIcon = ActionIcon({
+      icon: ActionIcon.APPLY,
+      onClick: this._handleSave,
+    });
 
-    return <Header
-      left={backIcon}
-      right={applyIcon}
-    />;
+    const header = Header({
+      left: backIcon,
+      right: applyIcon,
+      whiteLogo: true,
+    });
+
+    return (
+      <div className={styles.headerBackground}>
+        {header}
+      </div>
+    );
   }
 
   _getDatePicker() {
@@ -82,17 +92,32 @@ export default class EditScreen extends React.PureComponent {
     />;
   }
 
+  _getApplyButton() {
+    const buttonImage = <div className={styles.applyButton} />;
+
+    const button = Button({
+      children: buttonImage,
+      onClick: this._handleSave,
+    });
+
+    return button;
+  }
+
   _getMainContent() {
     const datePicker = this._getDatePicker();
     const textArea = this._getTextArea();
+    const applyButton = this._getApplyButton();
 
     return (
-      <div>
-        <div>
+      <div className={styles.main}>
+        <div className={styles.datePickerContainer}>
           {datePicker}
         </div>
-        <div>
+        <div className={styles.textAreaContainer}>
           {textArea}
+        </div>
+        <div className={styles.buttonContainer}>
+          {applyButton}
         </div>
       </div>
     );
@@ -102,9 +127,9 @@ export default class EditScreen extends React.PureComponent {
     const header = this._getHeader();
     const main = this._getMainContent();
 
-    return <BaseScreen
-      header={header}
-      main={main}
-    />;
+    return BaseScreen({
+      header: header,
+      main: main,
+    });
   }
 }
