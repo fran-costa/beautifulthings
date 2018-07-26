@@ -1,13 +1,23 @@
 import Account from 'account';
 import { createEntry } from 'utils/entry';
 
-const _HOST = 'http://localhost/';
+const _HOST = 'https://server.beautifulthings.app/';
 
 class ErrorCannotGetEntries extends Error {}
 
 class Api {
+  constructor() {
+    this._username = null;
+    this._token = null;
+  }
+
   initAccount(username, keyPair) {
+    this._username = username;
     this._account = new Account(username, keyPair);
+  }
+
+  get username() {
+    return this._username;
   }
 
   _getUrl(path) {
@@ -74,6 +84,8 @@ class Api {
     if (!response.ok) throw new ErrorCannotGetEntries();
 
     const encryptedEntries = await response.json();
+    if (!encryptedEntries) return [];
+
     const decryptedEntries = encryptedEntries.map(this._decryptReceivedEntry);
 
     return decryptedEntries;
