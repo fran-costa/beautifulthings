@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Account from 'account';
+import api from 'api';
+
+import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
 
 import BaseUserPassScreen from 'containers/BaseUserPassScreen';
 import Button from 'components/Button';
@@ -11,6 +14,7 @@ import styles from './index.module.scss';
 
 export default class SignUpScreen extends React.PureComponent {
   static propTypes = {
+    onSuccessfulySignUp: PropTypes.func.isRequired,
     onSignIn: PropTypes.func.isRequired,
   }
 
@@ -73,7 +77,25 @@ export default class SignUpScreen extends React.PureComponent {
   _handleSignUp = () => this._signUp();
   _handleSignIn = () => this.props.onSignIn();
 
-  _signUp() { /* TODO: Show spinner, create account, signup and show corresponding modal */ }
+  _signUp() {
+    const { username, password } = this.state;
+
+    showLoadingModal('Signing up...');
+    Account.generateKeyPair(username, password)
+      .then(keyPair => {
+        api.initAccount(username, keyPair);
+        return api.signUp();
+      })
+      .then(signUpResult => {
+        hideLoadingModal();
+        if (signUpResult) this._showSuccessfulySignedUpModal();
+        else this._toggleTryAnotherModalVisibility();
+      })
+      .catch(() => {
+        hideLoadingModal();
+        /* TODO: TBD: A new modal maybe? */
+      });
+  }
 
   _getSignUpButton() {
     const validFormDate = this._validateForm();
