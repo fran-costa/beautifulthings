@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import api from 'api';
+
 import { getCurrentDateString } from 'utils/date';
+import { createEntry } from 'utils/entry';
+import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
 
 import Button from 'components/Button';
 import ButtonsModal from 'components/ButtonsModal';
@@ -20,10 +24,18 @@ export default class EditScreenWrapper extends React.PureComponent {
     unsavedChangesModalVisible: false,
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     const dateToEdit = this.props.match.params.date;
 
-    if (dateToEdit) { /* TODO: Show spinner, retrieve entry, update states and re-render */ }
+    if (!dateToEdit) return;
+
+    showLoadingModal('Loading...');
+    try {
+      const entries = await api.getEntries(dateToEdit, dateToEdit);
+      const entryText = entries[0].text;
+      this.setState({ text: entryText });
+    } catch (error) { /* TODO: TBD */ }
+    hideLoadingModal();
   }
 
   _handleBack = (entryDate, entryText) => {
@@ -33,7 +45,18 @@ export default class EditScreenWrapper extends React.PureComponent {
     else this.props.onBack();
   }
 
-  _handleSave = (date, text) => { /* TODO: Show spinner, post entry, call this.props.onSave() */ }
+  _handleSave = (date, text) => {
+    const entry = createEntry(date, text);
+
+    showLoadingModal('Saving...');
+    api.addEntry(entry)
+      .then(result => {
+        hideLoadingModal();
+        if (result) this.props.onSave();
+        else { /* TODO: TBD */ }
+      })
+      .catch(error => { /* TODO: TBD */ });
+  }
 
   _showUnsavedChangesModal = () => this.setState({ unsavedChangesModalVisible: true });
   _hideUnsavedChangesModal = () => this.setState({ unsavedChangesModalVisible: false });
