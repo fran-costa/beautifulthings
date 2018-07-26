@@ -15,6 +15,7 @@ export default class ListScreenWrapper extends React.PureComponent {
   static propTypes = {
     onAdd: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onSignOut: PropTypes.func.isRequired,
   }
 
   state = {
@@ -41,7 +42,10 @@ export default class ListScreenWrapper extends React.PureComponent {
     this.setState({ isSettingsModalVisible: false });
   }
 
-  _handleSignOut = () => { /* TODO */ }
+  _handleSignOut = () => {
+    api.signOut()
+      .then(this.props.onSignOut)
+  }
 
   _setEntryToDelete = entryDate => this.setState({ entryToDelete: entryDate });
   _unsetEntryToDelete = () => this.setState({ entryToDelete: null });
