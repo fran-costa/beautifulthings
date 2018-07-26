@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import api from 'api';
+
+import { getCurrentDateString } from 'utils/date';
+import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
+
 import Button from 'components/Button';
 import ButtonsModal from 'components/ButtonsModal';
 import ListScreen from 'containers/ListScreen';
@@ -13,12 +18,21 @@ export default class ListScreenWrapper extends React.PureComponent {
   }
 
   state = {
-    entries: null,
+    entries: [],
     entryToDelete: null,
     isSettingsModalVisible: false,
   };
 
-  componentWillMount() { /* TODO: Request entries */ }
+  async componentWillMount() {
+    const currentDate = getCurrentDateString();
+
+    showLoadingModal('Loading...');
+    try {
+      const entries = await api.getEntries('2018-01-01', currentDate);
+      if (entries.length) this.setState({ entries });
+    } catch (error) { /* TODO: TBD */ }
+    hideLoadingModal();
+  }
 
   _openSettingsModal = () => this.setState({ isSettingsModalVisible: true });
 
@@ -35,11 +49,11 @@ export default class ListScreenWrapper extends React.PureComponent {
   _removeEntry = () => { /* TODO: remove entry -the one indicated at state.entryToDelete- */ }
 
   _getSettingsModal() {
-    // TODO: Get username and current notifications configuration of the account
+    // TODO: Get current notifications configuration of the account
 
     return <SettingsModal
       visible={this.state.isSettingsModalVisible}
-      username="Username"
+      username={api.username}
       daily={true}
       onHide={this._closeSettingsModal}
       onSignOut={this._handleSignOut}
