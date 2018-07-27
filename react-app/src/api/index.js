@@ -65,7 +65,7 @@ class Api {
 
     await this._saveAccountData();
 
-    setNotifications();
+    setNotifications(true);
 
     return true;
   }

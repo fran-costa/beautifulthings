@@ -5,6 +5,7 @@ import api from 'api';
 
 import { getCurrentDateString } from 'utils/date';
 import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
+import { setNotifications, isDailyScheduled } from 'notifications';
 
 import Button from 'components/Button';
 import ButtonsModal from 'components/ButtonsModal';
@@ -38,7 +39,7 @@ export default class ListScreenWrapper extends React.PureComponent {
   _openSettingsModal = () => this.setState({ isSettingsModalVisible: true });
 
   _closeSettingsModal = isDaily => {
-    // TODO: Update accounts notifications configuration if needed
+    setNotifications(isDaily);
     this.setState({ isSettingsModalVisible: false });
   }
 
@@ -53,12 +54,12 @@ export default class ListScreenWrapper extends React.PureComponent {
   _removeEntry = () => { /* TODO: remove entry -the one indicated at state.entryToDelete- */ }
 
   _getSettingsModal() {
-    // TODO: Get current notifications configuration of the account
+    const isDaily = isDailyScheduled();
 
     return <SettingsModal
       visible={this.state.isSettingsModalVisible}
       username={api.username}
-      daily={true}
+      daily={isDaily}
       onHide={this._closeSettingsModal}
       onSignOut={this._handleSignOut}
     />
