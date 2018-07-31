@@ -128,6 +128,7 @@ export default class InputText extends React.PureComponent {
     const input = this._getInput();
     const icon = this._getInputIcon();
     const errorMessage = this._getErrorMessage();
+    const errorMessageStyle = this.props.type === InputText.TEXT ? styles.errorMessageContainer : styles.passwordErrorMessageContainer;
 
     return (
       <div className={styles.container}>
@@ -138,7 +139,7 @@ export default class InputText extends React.PureComponent {
           {input}
           {icon}
         </div>
-        <div className={styles.errorMessageContainer}>
+        <div className={errorMessageStyle}>
           {errorMessage}
         </div>
       </div>
