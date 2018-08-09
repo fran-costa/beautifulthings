@@ -1,7 +1,7 @@
 import Account from 'account';
 import { createEntry } from 'utils/entry';
 
-const _HOST = 'http://localhost/';
+const HOST = 'https://server.beautifulthings.app/';
 
 class ErrorCannotGetEntries extends Error {}
 
@@ -11,7 +11,7 @@ class Api {
   }
 
   _getUrl(path) {
-    let url = `${_HOST}${path}`;
+    let url = `${HOST}${path}`;
     if (this._token) url += `?token=${this._token}`;
 
     return url;

@@ -36,7 +36,8 @@ const AppRouter = () => {
     onEdit: _openEditScreen,
   });
 
-  const _renderEditScreen = () => EditScreenContainer({
+  const _renderEditScreen = ({ match }) => EditScreenContainer({
+    date: match.params.date,
     onBack: _openListScreen,
     onSave: _openListScreen,
   })

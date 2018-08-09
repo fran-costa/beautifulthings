@@ -17,7 +17,11 @@ const ListScreen = ({ entries, username, notifications, onAdd, onEdit, onDelete,
   let _settingsModal = null;
   const _setSettingsModalRef = element => _settingsModal = element;
 
+<<<<<<< HEAD
   const _handleSettingsClick = () => _settingsModal.show(notifications);
+=======
+  const _handleSettingsClick = () => _settingsModal.show(daily);
+>>>>>>> WIP
 
   function _renderHeader() {
     const settingsIcon = <ActionIcon
@@ -33,6 +37,7 @@ const ListScreen = ({ entries, username, notifications, onAdd, onEdit, onDelete,
   }
 
   function _renderMain() {
+<<<<<<< HEAD
     if (!entries.length) return <Welcome />;
 
     const list = entries.map((entry, index) => (
@@ -48,6 +53,17 @@ const ListScreen = ({ entries, username, notifications, onAdd, onEdit, onDelete,
         />
       </div>
     ));
+=======
+    if (!entries.length) return Welcome();
+
+    const list = entries.map((entry, index) => <ListItem
+      key={index}
+      date={entry.date}
+      text={entry.text}
+      onEdit={onEdit}
+      onDelete={onRemove}
+    />);
+>>>>>>> WIP
 
     return (
       <div className={styles.listContainer}>
