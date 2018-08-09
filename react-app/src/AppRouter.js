@@ -1,44 +1,23 @@
 import React from 'react';
 import { HashRouter, Route, Redirect } from 'react-router-dom';
 
-import EditScreenWrapper from 'containers/EditScreenWrapper';
-import SignUpScreen from 'containers/SignUpScreen';
-import StartScreen from 'containers/StartScreen';
+import StartScreenContainer from 'containers/StartScreenContainer';
 
-class AppRouter extends React.PureComponent {
-  _showStartScreen = () => window.location.hash = '/start';
-  _showSignUpScreen = () => window.location.hash = '/signup';
-  _showListScreen = () => window.location.hash = 'list';
+const AppRouter = () => {
+  const _openSignUpScreen = () => window.location.hash = '/signup';
 
-  _startScreen = props => <StartScreen
-    {...props}
-    onSignUp={this._showSignUpScreen}
-  />
+  const _renderStartScreen = () => StartScreenContainer({
+    onSignUp: _openSignUpScreen,
+  });
 
-  _signUpScreen = props => <SignUpScreen
-    {...props}
-    onSignIn={this._showStartScreen}
-  />
-
-  _editScreen = props => <EditScreenWrapper
-    {...props}
-    onBack={this._showListScreen}
-    onSave={() => { /* TODO */ }}
-  />
-
-  render() {
-    return (
-      <HashRouter>
-        <div>
-          <Redirect exact path="/" to="/start" />
-          <Route exact path="/start" render={this._startScreen} />
-          <Route exact path="/signup" render={this._signUpScreen} />
-          <Route exact path="/edit" render={this._editScreen} />
-          <Route exact path="/edit/:date" render={this._editScreen} />
-        </div>
-      </HashRouter>
-    );
-  }
+  return (
+    <HashRouter>
+      <div>
+        <Redirect exact path="/" to="/start" />
+        <Route exact path="/start" render={_renderStartScreen} />
+      </div>
+    </HashRouter>
+  );
 }
 
 export default AppRouter;
