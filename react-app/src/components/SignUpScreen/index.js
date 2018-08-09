@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Account from 'account';
 
-import BaseUserPassScreen from 'containers/BaseUserPassScreen';
+import BaseUserPassScreen from 'components/BaseUserPassScreen';
 import Button from 'components/Button';
 import ButtonsModal from 'components/ButtonsModal';
 
@@ -75,7 +75,7 @@ export default class SignUpScreen extends React.PureComponent {
 
   _signUp() { /* TODO: Show spinner, create account, signup and show corresponding modal */ }
 
-  _getSignUpButton() {
+  _renderSignUpButton() {
     const validFormDate = this._validateForm();
 
     return Button({
@@ -85,40 +85,40 @@ export default class SignUpScreen extends React.PureComponent {
     });
   }
 
-  _signInButton = Button({
-    children: "Sign in",
-    onClick: this._handleSignIn,
-    small: true,
-  });
+  _renderSignedUpModal() {
+    const signInButton = Button({
+      children: "Sign in",
+      onClick: this._handleSignIn,
+      small: true,
+    });
 
-  _getSignedUpModal() {
     return ButtonsModal({
       visible: this.state.isSignedUpModalVisible,
       message: "Successful registration",
-      primaryButton: this._signInButton,
+      primaryButton: signInButton,
     });
   }
 
-  _closeModalButton = Button({
-    children: "Try another",
-    onClick: this._toggleTryAnotherModalVisibility,
-    small: true,
-  });
+  _renderTryAnotherModal() {
+    const closeModalButton = Button({
+      children: "Try another",
+      onClick: this._toggleTryAnotherModalVisibility,
+      small: true,
+    });
 
-  _getTryAnotherModal() {
     return ButtonsModal({
       visible: this.state.isTryAnotherModalVisible,
       message: "Username already exists",
-      primaryButton: this._closeModalButton,
+      primaryButton: closeModalButton,
     });
   }
 
   render() {
     const { usernameError, passwordError } = this.state;
 
-    const signUpButton = this._getSignUpButton();
-    const signedUpModal = this._getSignedUpModal();
-    const tryAnotherModal = this._getTryAnotherModal();
+    const signUpButton = this._renderSignUpButton();
+    const signedUpModal = this._renderSignedUpModal();
+    const tryAnotherModal = this._renderTryAnotherModal();
 
     return (
       <div>
