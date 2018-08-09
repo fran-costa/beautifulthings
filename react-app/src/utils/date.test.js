@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { isDateStringValid } from './';
+import { isDateStringValid } from './date';
 
 test('valid date string varification', () => {
   expect.assertions(1);

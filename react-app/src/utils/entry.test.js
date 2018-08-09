@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { createEntry } from './';
+import { createEntry } from './entry';
 
 test('success creating a valid entry from valid data', () => {
   expect.assertions(1);
