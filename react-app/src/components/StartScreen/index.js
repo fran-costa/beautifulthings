@@ -10,6 +10,14 @@ import styles from './index.module.scss';
 
 export default class StartScreen extends React.PureComponent {
   static propTypes = {
+    /**
+     * The function to call when sign in button in clicked with valid username-password data
+     */
+    performSignIn: PropTypes.func.isRequired,
+
+    /**
+     * The function to call when sign up button in clicked
+     */
     onSignUp: PropTypes.func.isRequired,
   }
 
@@ -56,7 +64,7 @@ export default class StartScreen extends React.PureComponent {
 
   _handlePasswordEnter = () => (this._validateForm()) ? this._signIn() : null;
 
-  _signIn() { /* TODO: Show spinner, create account and signin or show modal */ }
+  _signIn = () => this.props.performSignIn(this.state.username, this.state.password);
 
   _renderSignInButton() {
     const validFormData = this._validateForm();
