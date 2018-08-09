@@ -27,6 +27,7 @@ const AppRouter = () => {
   });
 
   const _renderSignUpScreen = () => SignUpScreenContainer({
+    onSignUpSuccessfuly: _openStartScreen,
     onSignIn: _openStartScreen,
   });
 
