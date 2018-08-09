@@ -5,7 +5,6 @@ import Account from 'account';
 
 import BaseUserPassScreen from 'components/BaseUserPassScreen';
 import Button from 'components/Button';
-import ButtonsModal from 'components/ButtonsModal';
 
 import styles from './index.module.scss';
 
@@ -19,14 +18,9 @@ export default class StartScreen extends React.PureComponent {
     password: '',
     usernameError: '',
     passwordError: '',
-    isModalVisible: false,
   };
 
-  _validateForm() {
-    const { username, password } = this.state;
-
-    return username && password;
-  }
+  _validateForm = () => this.state.username && this.state.password;
 
   _handleUsernameChange = username => {
     const valid = Account.validateUsername(username);
@@ -60,16 +54,7 @@ export default class StartScreen extends React.PureComponent {
     }
   }
 
-  _handlePasswordEnter = () => {
-    const validForm = this._validateForm();
-
-    if (validForm) this._signIn();
-  }
-
-  _toggleModalVisibility = () => this.setState({ isModalVisible: !this.state.isModalVisible });
-
-  _handleSignUp = () => this.props.onSignUp();
-  _handleSignIn = () => this._signIn();
+  _handlePasswordEnter = () => (this._validateForm()) ? this._signIn() : null;
 
   _signIn() { /* TODO: Show spinner, create account and signin or show modal */ }
 
@@ -78,29 +63,15 @@ export default class StartScreen extends React.PureComponent {
 
     return Button({
       disabled: !validFormData,
-      onClick: this._handleSignIn,
+      onClick: this._signIn,
       children: "Sign in",
     });
   }
 
   _renderSignUpButton() {
     return Button({
-      onClick: this._handleSignUp,
+      onClick: this.props.onSignUp,
       children: "Sign up",
-    });
-  }
-
-  _renderWrongUsernameOrPasswordModal() {
-    const closeModalButton = Button({
-      children: "Try again",
-      onClick: this._toggleModalVisibility,
-      small: true,
-    });
-
-    return ButtonsModal({
-      visible: this.state.isModalVisible,
-      message: "Your username or password is incorrect",
-      primaryButton: closeModalButton,
     });
   }
 
@@ -109,31 +80,27 @@ export default class StartScreen extends React.PureComponent {
 
     const signInButton = this._renderSignInButton();
     const signUpButton = this._renderSignUpButton();
-    const wrongUsernameOrPasswordModal = this._renderWrongUsernameOrPasswordModal();
 
     return (
-      <div>
-        {wrongUsernameOrPasswordModal}
-        <BaseUserPassScreen
-          usernameError={usernameError}
-          passwordError={passwordError}
-          onUsernameChange={this._handleUsernameChange}
-          onPasswordChange={this._handlePasswordChange}
-          onPasswordEnter={this._handlePasswordEnter}
-        >
-          <div className={styles.container}>
-            <div>
-              {signInButton}
-            </div>
-            <div className={styles.createAccountLabelContainer}>
-              - Create your account -
-            </div>
-            <div>
-              {signUpButton}
-            </div>
+      <BaseUserPassScreen
+        usernameError={usernameError}
+        passwordError={passwordError}
+        onUsernameChange={this._handleUsernameChange}
+        onPasswordChange={this._handlePasswordChange}
+        onPasswordEnter={this._handlePasswordEnter}
+      >
+        <div className={styles.container}>
+          <div>
+            {signInButton}
           </div>
-        </BaseUserPassScreen>
-      </div>
+          <div className={styles.createAccountLabelContainer}>
+            - Create your account -
+          </div>
+          <div>
+            {signUpButton}
+          </div>
+        </div>
+      </BaseUserPassScreen>
     );
   }
 }
