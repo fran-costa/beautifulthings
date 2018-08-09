@@ -22,6 +22,7 @@ const AppRouter = () => {
   const _openEditScreen = date => window.location.hash = routesNames.edit(date);
 
   const _renderStartScreen = () => StartScreenContainer({
+    onSignInSuccessfuly: _openListScreen,
     onSignUp: _openSignUpScreen,
   });
 
