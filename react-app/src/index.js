@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppRouter from 'containers/AppRouter';
 import registerServiceWorker from './registerServiceWorker';
+
+import AppRouter from './AppRouter.js';
 
 import './index.css';
 
