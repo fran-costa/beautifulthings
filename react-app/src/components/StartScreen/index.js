@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Account from 'account';
 
-import BaseUserPassScreen from 'containers/BaseUserPassScreen';
+import BaseUserPassScreen from 'components/BaseUserPassScreen';
 import Button from 'components/Button';
 import ButtonsModal from 'components/ButtonsModal';
 
@@ -73,7 +73,7 @@ export default class StartScreen extends React.PureComponent {
 
   _signIn() { /* TODO: Show spinner, create account and signin or show modal */ }
 
-  _getSignInButton() {
+  _renderSignInButton() {
     const validFormData = this._validateForm();
 
     return Button({
@@ -83,30 +83,33 @@ export default class StartScreen extends React.PureComponent {
     });
   }
 
-  _signUpButton = Button({
-    onClick: this._handleSignUp,
-    children: "Sign up",
-  });
+  _renderSignUpButton() {
+    return Button({
+      onClick: this._handleSignUp,
+      children: "Sign up",
+    });
+  }
 
-  _closeModalButton = Button({
-    children: "Try again",
-    onClick: this._toggleModalVisibility,
-    small: true,
-  });
+  _renderWrongUsernameOrPasswordModal() {
+    const closeModalButton = Button({
+      children: "Try again",
+      onClick: this._toggleModalVisibility,
+      small: true,
+    });
 
-  _getWrongUsernameOrPasswordModal() {
     return ButtonsModal({
       visible: this.state.isModalVisible,
       message: "Your username or password is incorrect",
-      primaryButton: this._closeModalButton,
+      primaryButton: closeModalButton,
     });
   }
 
   render() {
     const { usernameError, passwordError } = this.state;
 
-    const signInButton = this._getSignInButton();
-    const wrongUsernameOrPasswordModal = this._getWrongUsernameOrPasswordModal();
+    const signInButton = this._renderSignInButton();
+    const signUpButton = this._renderSignUpButton();
+    const wrongUsernameOrPasswordModal = this._renderWrongUsernameOrPasswordModal();
 
     return (
       <div>
@@ -126,7 +129,7 @@ export default class StartScreen extends React.PureComponent {
               - Create your account -
             </div>
             <div>
-              {this._signUpButton}
+              {signUpButton}
             </div>
           </div>
         </BaseUserPassScreen>
