@@ -1,19 +1,23 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import api from 'api';
+import { editEntry } from 'actions/entries';
 
 import { getCurrentDateString } from 'utils/date';
 import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
 
 import ListScreen from 'components/ListScreen';
 
-const ListScreenContainer = ({ onAdd, onEdit }) => {
+const ListScreenContainer = ({ entries, onAdd, onEdit, aux }) => {
   async function _requestEntries() {
     try {
       showLoadingModal('Retrieving entries...');
       const currentDateString = getCurrentDateString();
       const entries = await api.getEntries('2018-01-01', currentDateString);
-      if (entries.length) { /** TODO: Update entries */ }
+      if (entries.length) entries.forEach(entry => aux(entry.date, entry.text));
+        //console.log(entries)/** TODO: Update entries */
     } catch(error) {
       /** TODO: Show an alert */
     } finally {
@@ -24,7 +28,7 @@ const ListScreenContainer = ({ onAdd, onEdit }) => {
   _requestEntries();
 
   return ListScreen({
-    entries: [],
+    entries,
     username: 'Username',
     daily: true,
     onAdd,
@@ -36,6 +40,8 @@ const ListScreenContainer = ({ onAdd, onEdit }) => {
 }
 
 ListScreenContainer.propTypes = {
+  entries: PropTypes.array.isRequired,
+
   /**
    * The function to call when add button is tapped
    */
@@ -45,6 +51,18 @@ ListScreenContainer.propTypes = {
    * The function to call when edit button is tapped over an entry
    */
   onEdit: PropTypes.func.isRequired,
+
+  aux: PropTypes.func.isRequired,
 };
 
-export default ListScreenContainer;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  aux: (date, text) => dispatch(editEntry(date, text)),
+  //onRemove: date => dispatch(removeEntry(date)),
+  //onDailyChanged: daily => dispatch(setNotifications(daily)),
+}, dispatch);
+
+const mapStateToProps = state => ({
+  entries: state.entries,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListScreenContainer);

@@ -31,10 +31,10 @@ const AppRouter = () => {
     onSignIn: _openStartScreen,
   });
 
-  const _renderListScreen = () => ListScreenContainer({
-    onAdd: _openAddScreen,
-    onEdit: _openEditScreen,
-  });
+  const _renderListScreen = () => <ListScreenContainer
+    onAdd={_openAddScreen}
+    onEdit={_openEditScreen}
+  />
 
   const _renderEditScreen = ({ match }) => EditScreenContainer({
     date: match.params.date,
