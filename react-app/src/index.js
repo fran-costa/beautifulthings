@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { offline } from '@redux-offline/redux-offline';
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -14,7 +16,10 @@ import './index.css';
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk),
+  compose(
+    applyMiddleware(thunk),
+    offline(offlineConfig),
+  ),
 );
 
 const app = (
