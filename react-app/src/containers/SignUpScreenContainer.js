@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { signUpAsync } from 'actions/account';
 
 import { changeHash, SCREENS_HASHES } from 'AppRouter';
+import { showAlertModal } from 'utils/alertModal';
 import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
 
 import Button from 'components/Button';
@@ -17,13 +18,13 @@ class SignUpScreenContainer extends React.PureComponent {
 
   _signUp = async (username, password) => {
     try {
-      showLoadingModal('Signing up...');
+      showLoadingModal('Signing up');
       const signedUp = await signUpAsync(username, password);
 
       if (signedUp) this.setState({ signedUpModalVisible: true });
-      else { /** TODO: Alert: Username already exists */ }
+      else showAlertModal('Username already exists');
     } catch (error) {
-      /** TODO: Alert: Cannot connect to server */
+      showAlertModal('Cannot connect to the server');
     } finally {
       hideLoadingModal();
     }
