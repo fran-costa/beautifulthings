@@ -1,5 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { HashRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { initSavedAccountAsync } from 'actions/account';
+
+import { showLoadingModal, hideLoadingModal } from 'utils/spinner';
 
 import EditScreenContainer from 'containers/EditScreenContainer';
 import ListScreenContainer from 'containers/ListScreenContainer';
@@ -18,6 +24,25 @@ function changeHash(hash) {
 }
 
 class AppRouter extends React.PureComponent {
+  static propTypes = {
+    /**
+     * Redux dispatch function
+     */
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  async componentDidMount() {
+    try {
+      showLoadingModal('Loading');
+      const savedAccountInited = await initSavedAccountAsync()(this.props.dispatch);
+      if (savedAccountInited) changeHash(SCREENS_HASHES.list);
+    } catch (error) {
+      /** Nothing to be done here */
+    } finally {
+      hideLoadingModal();
+    }
+  }
+
   render() {
     return (
       <HashRouter>
@@ -33,4 +58,4 @@ class AppRouter extends React.PureComponent {
 }
 
 export { changeHash, SCREENS_HASHES }
-export default AppRouter;
+export default connect()(AppRouter);

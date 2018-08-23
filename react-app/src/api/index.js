@@ -3,7 +3,7 @@ import * as keystore from 'keystore';
 import { createEntry } from 'utils/entry';
 import { setNotifications, clearNotifications } from 'notifications';
 
-const _HOST = 'http://localhost/';
+const _HOST = 'http://192.168.88.21/';
 
 class ErrorCannotGetEntries extends Error {}
 
@@ -121,7 +121,7 @@ class Api {
   }
 
   async initSavedAccount() {
-    let savedAccountSuccessfulyInitialized = false;
+    let savedAccountUsername = "";
 
     try {
       await keystore.init();
@@ -130,7 +130,7 @@ class Api {
 
       const deserializedSavedAccount = JSON.parse(serializedSavedAccount);
 
-      const savedAccountUsername = deserializedSavedAccount.username;
+      savedAccountUsername = deserializedSavedAccount.username;
       const savedAccountKeyPair = {
         publicKey: Uint8Array.from(deserializedSavedAccount.publicKey),
         secretKey: Uint8Array.from(deserializedSavedAccount.secretKey),
@@ -138,13 +138,11 @@ class Api {
 
       this._token = savedToken;
       this.initAccount(savedAccountUsername, savedAccountKeyPair);
-
-      savedAccountSuccessfulyInitialized = true;
     } catch (error) {
       /* Nothing here. If the account data cannot be loaded, the app works normally and user must signin */
     }
 
-    return savedAccountSuccessfulyInitialized;
+    return savedAccountUsername;
   }
 }
 
