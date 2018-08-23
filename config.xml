@@ -8,6 +8,7 @@
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <preference name="Orientation" value="portrait" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="res/icon/android/icon-36-ldpi.png" />
