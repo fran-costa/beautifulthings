@@ -61,7 +61,7 @@ class EditScreenContainer extends React.PureComponent {
 
   _onSave = async (date, text) => {
     if (!text) {
-      showAlertModal('Text cannot be null');
+      showAlertModal('The input field cannot be empty');
       return;
     }
 
